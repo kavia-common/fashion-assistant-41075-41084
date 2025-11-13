@@ -14,6 +14,7 @@ import { SearchPage } from './pages/search.page';
 import { CartPage } from './pages/cart.page';
 import { LoginPage } from './pages/login.page';
 import { SignupPage } from './pages/signup.page';
+import { authGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -24,13 +25,13 @@ export const routes: Routes = [
       { path: '', component: HomePage },
       { path: 'upload', component: UploadPage },
       { path: 'discover', component: DiscoverPage },
-      { path: 'profile', component: ProfilePage },
+      { path: 'profile', component: ProfilePage, canActivate: [authGuard] },
 
       // Additional required routes
       { path: 'results/:id', component: ResultsPage },
       { path: 'product/:id', component: ProductPage },
       { path: 'search', component: SearchPage },
-      { path: 'cart', component: CartPage },
+      { path: 'cart', component: CartPage, canActivate: [authGuard] },
       { path: 'login', component: LoginPage },
       { path: 'signup', component: SignupPage },
 

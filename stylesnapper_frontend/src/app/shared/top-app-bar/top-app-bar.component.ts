@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, computed, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FeatureFlagsService } from '../../core/feature-flags/feature-flags.service';
+import { AuthService } from '../../core/auth/auth.service';
 
 /**
  * TopAppBarComponent
@@ -24,8 +25,13 @@ import { FeatureFlagsService } from '../../core/feature-flags/feature-flags.serv
           <small *ngIf="flags.isEnabled('beta')" class="badge p-2 rounded ml-2" style="color:#1d4ed8; border:1px solid rgba(37,99,235,0.4);">Beta</small>
         </h1>
         <div class="actions">
-          <a class="btn btn-outline focus-ring" [routerLink]="['/login']">Login</a>
-          <a class="btn focus-ring" [routerLink]="['/signup']">Sign up</a>
+          <ng-container *ngIf="isAuthed(); else guestActions">
+            <a class="btn btn-outline focus-ring" [routerLink]="['/profile']">Profile</a>
+          </ng-container>
+          <ng-template #guestActions>
+            <a class="btn btn-outline focus-ring" [routerLink]="['/login']">Login</a>
+            <a class="btn focus-ring" [routerLink]="['/signup']">Sign up</a>
+          </ng-template>
         </div>
       </div>
     </header>
@@ -90,6 +96,7 @@ import { FeatureFlagsService } from '../../core/feature-flags/feature-flags.serv
 })
 export class TopAppBarComponent {
   protected flags = inject(FeatureFlagsService);
+  private auth = inject(AuthService);
 
   @Input() title = 'StyleSnapper';
   @Input() showBack = false;
@@ -97,4 +104,6 @@ export class TopAppBarComponent {
 
   @Output() back = new EventEmitter<void>();
   @Output() primaryAction = new EventEmitter<void>();
+
+  isAuthed = computed(() => !!this.auth.currentUser()());
 }

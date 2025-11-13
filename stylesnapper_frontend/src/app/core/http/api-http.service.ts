@@ -33,73 +33,83 @@ export class ApiHttpService {
     return `${this.apiBase}${normalizedPath}`;
   }
 
+  /** Build HttpClient options ensuring observe: 'body' | responseType: 'json' to get Observable<T>. */
+  private buildOptions(options?: {
+    headers?: HttpHeaders | { [header: string]: string | string[] };
+    context?: HttpContext;
+    params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> };
+    reportProgress?: boolean;
+    withCredentials?: boolean;
+  }) {
+    return {
+      ...(options || {}),
+      observe: 'body' as const,
+      responseType: 'json' as const,
+    };
+  }
+
   // PUBLIC_INTERFACE
   get<T>(path: string, options?: {
-    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    headers?: HttpHeaders | { [header: string]: string | string[] };
     context?: HttpContext;
-    observe?: 'body';
-    params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>; };
+    params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> };
     reportProgress?: boolean;
-    responseType?: 'json';
     withCredentials?: boolean;
   }): Observable<T> {
     /** Performs a GET request against the API base + path. */
-    return this.http.get<T>(this.resolveUrl(path), options as any);
+    const opts = this.buildOptions(options);
+    return this.http.get<T>(this.resolveUrl(path), opts);
   }
 
   // PUBLIC_INTERFACE
   post<T>(path: string, body: unknown, options?: {
-    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    headers?: HttpHeaders | { [header: string]: string | string[] };
     context?: HttpContext;
-    observe?: 'body';
-    params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>; };
+    params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> };
     reportProgress?: boolean;
-    responseType?: 'json';
     withCredentials?: boolean;
   }): Observable<T> {
     /** Performs a POST request against the API base + path. */
-    return this.http.post<T>(this.resolveUrl(path), body, options as any);
+    const opts = this.buildOptions(options);
+    return this.http.post<T>(this.resolveUrl(path), body, opts);
   }
 
   // PUBLIC_INTERFACE
   put<T>(path: string, body: unknown, options?: {
-    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    headers?: HttpHeaders | { [header: string]: string | string[] };
     context?: HttpContext;
-    observe?: 'body';
-    params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>; };
+    params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> };
     reportProgress?: boolean;
-    responseType?: 'json';
     withCredentials?: boolean;
   }): Observable<T> {
     /** Performs a PUT request against the API base + path. */
-    return this.http.put<T>(this.resolveUrl(path), body, options as any);
+    const opts = this.buildOptions(options);
+    return this.http.put<T>(this.resolveUrl(path), body, opts);
   }
 
   // PUBLIC_INTERFACE
   patch<T>(path: string, body: unknown, options?: {
-    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    headers?: HttpHeaders | { [header: string]: string | string[] };
     context?: HttpContext;
-    observe?: 'body';
-    params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>; };
+    params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> };
     reportProgress?: boolean;
-    responseType?: 'json';
     withCredentials?: boolean;
   }): Observable<T> {
     /** Performs a PATCH request against the API base + path. */
-    return this.http.patch<T>(this.resolveUrl(path), body, options as any);
+    const opts = this.buildOptions(options);
+    return this.http.patch<T>(this.resolveUrl(path), body, opts);
   }
 
   // PUBLIC_INTERFACE
   delete<T>(path: string, options?: {
-    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    headers?: HttpHeaders | { [header: string]: string | string[] };
     context?: HttpContext;
-    observe?: 'body';
-    params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>; };
+    params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> };
     reportProgress?: boolean;
-    responseType?: 'json';
     withCredentials?: boolean;
   }): Observable<T> {
     /** Performs a DELETE request against the API base + path. */
-    return this.http.delete<T>(this.resolveUrl(path), options as any);
+    const opts = this.buildOptions(options);
+    return this.http.delete<T>(this.resolveUrl(path), opts);
   }
 }
