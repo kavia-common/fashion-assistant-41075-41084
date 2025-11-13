@@ -1,0 +1,4 @@
+{
+    "command": "npm install --legacy-peer-deps",
+    "working_directory": "/home/kavia/workspace/code-generation/fashion-assistant-41075-41084/stylesnapper_frontend"
+}
