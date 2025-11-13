@@ -24,7 +24,7 @@ export interface BottomNavItem {
         <a
           *ngFor="let item of items"
           class="nav-item focus-ring"
-          [routerLink]="item.path"
+          [routerLink]="['/', item.path]"
           routerLinkActive="active"
           [attr.aria-label]="item.label"
         >

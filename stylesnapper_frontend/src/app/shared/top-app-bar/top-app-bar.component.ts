@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 /**
  * TopAppBarComponent
@@ -10,18 +11,17 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-top-app-bar',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, RouterLink],
   template: `
     <header class="top-app-bar elev-1 gradient-surface">
       <div class="container bar-inner">
         <button *ngIf="showBack" class="icon-btn focus-ring" (click)="back.emit()" aria-label="Go back">
           ←
         </button>
-        <h1 class="title">{{ title }}</h1>
+        <h1 class="title"><a [routerLink]="['/']" class="title-link">{{ title }}</a></h1>
         <div class="actions">
-          <button *ngIf="primaryActionLabel" class="btn btn-outline focus-ring" (click)="primaryAction.emit()">
-            {{ primaryActionLabel }}
-          </button>
+          <a class="btn btn-outline focus-ring" [routerLink]="['/login']">Login</a>
+          <a class="btn focus-ring" [routerLink]="['/signup']">Sign up</a>
         </div>
       </div>
     </header>
@@ -50,6 +50,8 @@ import { NgIf } from '@angular/common';
       color: var(--color-text);
       text-align: center;
     }
+    .title-link { color: inherit; text-decoration: none; }
+    .title-link:hover { opacity: 0.9; }
     .actions {
       display: flex;
       align-items: center;

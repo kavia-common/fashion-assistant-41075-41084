@@ -45,7 +45,7 @@ export class AppShellComponent {
   navItems: BottomNavItem[] = [
     { label: 'Home', icon: '🏠', path: '' },
     { label: 'Upload', icon: '⬆️', path: 'upload' },
-    { label: 'Discover', icon: '✨', path: 'discover' },
-    { label: 'Profile', icon: '👤', path: 'profile' },
+    { label: 'Search', icon: '🔍', path: 'search' },
+    { label: 'Cart', icon: '🛒', path: 'cart' },
   ];
 }
