@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { NgIf } from '@angular/common';
 
 // PUBLIC_INTERFACE
 @Component({
   selector: 'app-results-page',
   standalone: true,
-  imports: [NgIf, RouterLink],
+  imports: [RouterLink],
   template: `
     <section class="card elev-1">
       <h2>Results</h2>

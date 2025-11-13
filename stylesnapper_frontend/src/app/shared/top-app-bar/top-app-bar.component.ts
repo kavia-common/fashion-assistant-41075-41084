@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FeatureFlagsService } from '../../core/feature-flags/feature-flags.service';
 
 /**
  * TopAppBarComponent
@@ -18,7 +19,10 @@ import { RouterLink } from '@angular/router';
         <button *ngIf="showBack" class="icon-btn focus-ring" (click)="back.emit()" aria-label="Go back">
           ←
         </button>
-        <h1 class="title"><a [routerLink]="['/']" class="title-link">{{ title }}</a></h1>
+        <h1 class="title">
+          <a [routerLink]="['/']" class="title-link">{{ title }}</a>
+          <small *ngIf="flags.isEnabled('beta')" class="badge p-2 rounded ml-2" style="color:#1d4ed8; border:1px solid rgba(37,99,235,0.4);">Beta</small>
+        </h1>
         <div class="actions">
           <a class="btn btn-outline focus-ring" [routerLink]="['/login']">Login</a>
           <a class="btn focus-ring" [routerLink]="['/signup']">Sign up</a>
@@ -49,6 +53,10 @@ import { RouterLink } from '@angular/router';
       margin: 0;
       color: var(--color-text);
       text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      justify-content: center;
     }
     .title-link { color: inherit; text-decoration: none; }
     .title-link:hover { opacity: 0.9; }
@@ -76,11 +84,13 @@ import { RouterLink } from '@angular/router';
     }
 
     @media (min-width: 640px) {
-      .title { text-align: left; }
+      .title { text-align: left; justify-content: flex-start; }
     }
   `]
 })
 export class TopAppBarComponent {
+  protected flags = inject(FeatureFlagsService);
+
   @Input() title = 'StyleSnapper';
   @Input() showBack = false;
   @Input() primaryActionLabel?: string;

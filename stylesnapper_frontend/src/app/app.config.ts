@@ -7,9 +7,15 @@ import { RuntimeConfigService } from './core/config/runtime-config.service';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/http/auth.interceptor';
 import { errorInterceptor } from './core/http/error.interceptor';
+import { FeatureFlagsService } from './core/feature-flags/feature-flags.service';
 
 function initRuntimeConfigFactory(svc: RuntimeConfigService) {
   return () => svc.load();
+}
+
+function initFeatureFlagsFactory(flags: FeatureFlagsService) {
+  // Initialize flags after runtime config is loaded
+  return () => flags.init();
 }
 
 export const appConfig: ApplicationConfig = {
@@ -27,6 +33,12 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       useFactory: initRuntimeConfigFactory,
       deps: [RuntimeConfigService],
+    },
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      useFactory: initFeatureFlagsFactory,
+      deps: [FeatureFlagsService],
     },
   ]
 };
